@@ -58,7 +58,7 @@ pygments==2.18.0
     #   rich
 readme-renderer==43.0
     # via twine
-requests==2.31.0
+requests==2.32.0
     # via
     #   -r runtime.in
     #   id
