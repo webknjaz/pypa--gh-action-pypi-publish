@@ -99,6 +99,31 @@ filter to the job:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
 ```
 
+### Generating and uploading attestations
+
+> [!IMPORTANT]
+> Support for generating and uploading [digital attestations] is currently
+> experimental and limited only to Trusted Publishing flows using PyPI or TestPyPI.
+> Support for this feature is not yet stable; the settings and behavior described
+> below may change without prior notice.
+
+> [!NOTE]
+> Generating and uploading digital attestations currently requires
+> authentication with a [trusted publisher].
+
+You can generate signed [digital attestations] for all the distribution files and
+upload them all together by enabling the `attestations` setting:
+
+```yml
+   with:
+     attestations: true
+```
+
+This will use [Sigstore] to create attestation
+objects for each distribution package, signing them with the identity provided
+by the GitHub's OIDC token associated with the current workflow. This means
+both the trusted publishing authentication and the attestations are tied to the
+same identity.
 
 ## Non-goals
 
@@ -287,3 +312,7 @@ https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md
 [configured on PyPI]: https://docs.pypi.org/trusted-publishers/adding-a-publisher/
 
 [how to specify username and password]: #specifying-a-different-username
+
+[digital attestations]: https://peps.python.org/pep-0740/
+[Sigstore]: https://www.sigstore.dev/
+[trusted publisher]: #trusted-publishing
