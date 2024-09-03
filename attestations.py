@@ -58,7 +58,7 @@ def collect_dists(packages_dir: Path) -> list[Path]:
 
     # Make sure everything that looks like a dist actually is one.
     # We do this up-front to prevent partial signing.
-    if (invalid_dists := [path for path in dist_paths if path.is_file()]):
+    if (invalid_dists := [path for path in dist_paths if not path.is_file()]):
         invalid_dist_list = ', '.join(map(str, invalid_dists))
         die(
             'The following paths look like distributions but '
