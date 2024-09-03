@@ -2,7 +2,7 @@ import hashlib
 import pathlib
 import sys
 
-packages_dir = pathlib.Path(sys.argv[1]).resolve().absolute()
+packages_dir = pathlib.Path(sys.argv[1]).resolve()
 
 print('Showing hash values of files to be uploaded:')
 
