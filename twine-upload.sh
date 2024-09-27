@@ -73,7 +73,11 @@ MAGIC_LINK_MESSAGE="::warning title=Create a Trusted Publisher::\
 A new Trusted Publisher for the currently running publishing workflow can be created \
 by accessing the following link(s) while logged-in as an owner of the package(s):"
 
-if [[ ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || ${#PACKAGE_NAMES[@]} -eq 0 ]] ; then
+
+[[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
+    && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
+
+if [[ "${TRUSTED_PUBLISHING}" == true || ! "${INPUT_REPOSITORY_URL}" =~ pypi\.org || ${#PACKAGE_NAMES[@]} -eq 0 ]] ; then
     TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE=""
 else
     if [[ "${INPUT_REPOSITORY_URL}" =~ test\.pypi\.org ]] ; then
@@ -90,8 +94,6 @@ else
     echo "${MAGIC_LINK_MESSAGE}" >> $GITHUB_STEP_SUMMARY
 fi
 
-[[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
-    && TRUSTED_PUBLISHING=true || TRUSTED_PUBLISHING=false
 
 if [[ "${INPUT_ATTESTATIONS}" != "false" ]] ; then
     # Setting `attestations: true` without Trusted Publishing indicates
