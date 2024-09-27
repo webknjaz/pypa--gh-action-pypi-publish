@@ -69,9 +69,9 @@ The workflow was run with 'attestations: true' input, but the specified \
 repository URL does not support PEP 740 attestations. As a result, the \
 attestations input is ignored."
 
-MAGIC_LINK_MESSAGE="::warning title=Create a Trusted Publisher::\
-A new Trusted Publisher for the currently running publishing workflow can be created \
-by accessing the following link(s) while logged-in as an owner of the package(s):"
+MAGIC_LINK_MESSAGE="A new Trusted Publisher for the currently running \
+publishing workflow can be created by accessing the following link(s) while \
+logged-in as an owner of the package(s):"
 
 
 [[ "${INPUT_USER}" == "__token__" && -z "${INPUT_PASSWORD}" ]] \
@@ -90,10 +90,14 @@ else
         LINK="- ${INDEX_URL}/manage/project/${PACKAGE_NAME}/settings/publishing/?provider=github&owner=${GITHUB_REPOSITORY_OWNER}&repository=${REPOSITORY_NAME}&workflow_filename=${WORKFLOW_FILENAME}"
         ALL_LINKS+="$LINK"$'\n'
     done
-    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="${MAGIC_LINK_MESSAGE}"$'\n'"${ALL_LINKS}"
-    echo "${MAGIC_LINK_MESSAGE}" >> $GITHUB_STEP_SUMMARY
-fi
 
+    # Construct the summary message without the warning header
+    MAGIC_LINK_MESSAGE_WITH_LINKS="${MAGIC_LINK_MESSAGE}"$'\n'"${ALL_LINKS}"
+    echo "${MAGIC_LINK_MESSAGE_WITH_LINKS}" >> $GITHUB_STEP_SUMMARY
+
+    # The actual nudge in the log is formatted as a warning
+    TRUSTED_PUBLISHING_MAGIC_LINK_NUDGE="::warning title=Create a Trusted Publisher::${MAGIC_LINK_MESSAGE_WITH_LINKS}"
+fi
 
 if [[ "${INPUT_ATTESTATIONS}" != "false" ]] ; then
     # Setting `attestations: true` without Trusted Publishing indicates
