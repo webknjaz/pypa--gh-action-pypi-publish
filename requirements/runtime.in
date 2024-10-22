@@ -10,8 +10,8 @@ id ~= 1.0
 requests
 
 # NOTE: Used to generate attestations.
-pypi-attestations ~= 0.0.12
-sigstore ~= 3.2.0
+pypi-attestations ~= 0.0.13
+sigstore ~= 3.4.0
 
 # NOTE: Used to detect the PyPI package name from the distribution files
 packaging
