@@ -11,7 +11,7 @@ requests
 
 # NOTE: Used to generate attestations.
 pypi-attestations ~= 0.0.13
-sigstore ~= 3.4.0
+sigstore ~= 3.5.1
 
 # NOTE: Used to detect the PyPI package name from the distribution files
 packaging
