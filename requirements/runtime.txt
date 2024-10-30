@@ -72,7 +72,9 @@ pkginfo==1.10.0
 platformdirs==4.2.2
     # via sigstore
 pyasn1==0.6.0
-    # via sigstore
+    # via
+    #   pypi-attestations
+    #   sigstore
 pycparser==2.22
     # via cffi
 pydantic==2.7.1
@@ -91,7 +93,7 @@ pyjwt==2.8.0
     # via sigstore
 pyopenssl==24.1.0
     # via sigstore
-pypi-attestations==0.0.12
+pypi-attestations==0.0.13
     # via -r runtime.in
 python-dateutil==2.9.0.post0
     # via betterproto
@@ -117,7 +119,7 @@ rich==13.7.1
     #   twine
 securesystemslib==1.0.0
     # via tuf
-sigstore==3.2.0
+sigstore==3.5.1
     # via
     #   -r runtime.in
     #   pypi-attestations
