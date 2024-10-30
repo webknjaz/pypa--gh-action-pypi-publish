@@ -111,16 +111,17 @@ filter to the job:
 > Generating and uploading digital attestations currently requires
 > authentication with a [trusted publisher].
 
-You can generate signed [digital attestations] for all the distribution files and
-upload them all together by enabling the `attestations` setting:
+Generating signed [digital attestations] for all the distribution files
+and uploading them all together is now on by default for all projects
+using Trusted Publishing. To disable it, set `attestations` as follows:
 
 ```yml
    with:
-     attestations: true
+     attestations: false
 ```
 
-This will use [Sigstore] to create attestation
-objects for each distribution package, signing them with the identity provided
+The attestation objects are created using [Sigstore] for each
+distribution package, signing them with the identity provided
 by the GitHub's OIDC token associated with the current workflow. This means
 both the trusted publishing authentication and the attestations are tied to the
 same identity.
