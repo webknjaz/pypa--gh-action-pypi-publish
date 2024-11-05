@@ -279,7 +279,7 @@ are released under the [BSD 3-clause license](LICENSE.md).
 
 
 [🧪 GitHub Actions CI/CD workflow tests badge]:
-https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test-action.yml/badge.svg?branch=unstable%2Fv1&event=push
+https://github.com/pypa/gh-action-pypi-publish/actions/workflows/build-and-push-docker-image.yml/badge.svg?branch=unstable%2Fv1&event=push
 [GHA workflow runs list]:
 https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test-action.yml?query=branch%3Aunstable%2Fv1
 
