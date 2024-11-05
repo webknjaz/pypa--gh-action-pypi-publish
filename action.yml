@@ -91,15 +91,70 @@ branding:
   color: yellow
   icon: upload-cloud
 runs:
-  using: docker
-  image: Dockerfile
-  args:
-  - ${{ inputs.user }}
-  - ${{ inputs.password }}
-  - ${{ inputs.repository-url }}
-  - ${{ inputs.packages-dir }}
-  - ${{ inputs.verify-metadata }}
-  - ${{ inputs.skip-existing }}
-  - ${{ inputs.verbose }}
-  - ${{ inputs.print-hash }}
-  - ${{ inputs.attestations }}
+  using: composite
+  steps:
+  - name: Fail-fast in unsupported environments
+    if: runner.os != 'Linux'
+    run: |
+      >&2 echo This action is only able to run under GNU/Linux environments
+      exit 1
+    shell: bash -eEuo pipefail {0}
+  - name: Reset path if needed
+    run: |
+      # Reset path if needed
+      # https://github.com/pypa/gh-action-pypi-publish/issues/112
+      if [[ $PATH != *"/usr/bin"* ]]; then
+        echo "\$PATH=$PATH. Resetting \$PATH for GitHub Actions."
+        PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        echo "PATH=$PATH" >>"$GITHUB_ENV"
+        echo "$PATH" >>"$GITHUB_PATH"
+        echo "\$PATH reset. \$PATH=$PATH"
+      fi
+    shell: bash
+  - name: Set repo and ref from which to run Docker container action
+    id: set-repo-and-ref
+    run: |
+      # Set repo and ref from which to run Docker container action
+      # to handle cases in which `github.action_` context is not set
+      # https://github.com/actions/runner/issues/2473
+      REF=${{ env.ACTION_REF || env.PR_REF || github.ref_name }}
+      REPO=${{ env.ACTION_REPO || env.PR_REPO || github.repository }}
+      REPO_ID=${{ env.PR_REPO_ID || github.repository_id }}
+      echo "ref=$REF" >>"$GITHUB_OUTPUT"
+      echo "repo=$REPO" >>"$GITHUB_OUTPUT"
+      echo "repo-id=$REPO_ID" >>"$GITHUB_OUTPUT"
+    shell: bash
+    env:
+      ACTION_REF: ${{ github.action_ref }}
+      ACTION_REPO: ${{ github.action_repository }}
+      PR_REF: ${{ github.event.pull_request.head.ref }}
+      PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      PR_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
+  - name: Check out action repo
+    uses: actions/checkout@v4
+    with:
+      path: action-repo
+      ref: ${{ steps.set-repo-and-ref.outputs.ref }}
+      repository: ${{ steps.set-repo-and-ref.outputs.repo }}
+  - name: Create Docker container action
+    run: |
+      # Create Docker container action
+      python create-docker-action.py
+    env:
+      REF: ${{ steps.set-repo-and-ref.outputs.ref }}
+      REPO: ${{ steps.set-repo-and-ref.outputs.repo }}
+      REPO_ID: ${{ steps.set-repo-and-ref.outputs.repo-id }}
+    shell: bash
+    working-directory: action-repo
+  - name: Run Docker container
+    uses: ./action-repo/.github/actions/run-docker-container
+    with:
+      user: ${{ inputs.user }}
+      password: ${{ inputs.password }}
+      repository-url: ${{ inputs.repository-url || inputs.repository_url }}
+      packages-dir: ${{ inputs.packages-dir || inputs.packages_dir }}
+      verify-metadata: ${{ inputs.verify-metadata || inputs.verify_metadata }}
+      skip-existing: ${{ inputs.skip-existing || inputs.skip_existing }}
+      verbose: ${{ inputs.verbose }}
+      print-hash: ${{ inputs.print-hash || inputs.print_hash }}
+      attestations: ${{ inputs.attestations }}

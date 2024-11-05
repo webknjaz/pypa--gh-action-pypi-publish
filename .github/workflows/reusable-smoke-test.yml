@@ -1,10 +1,9 @@
 ---
 
-name: 🧪
+name: ♻️ 🧪
 
 on:   # yamllint disable-line rule:truthy
-  push:
-  pull_request:
+  workflow_call:
 
 env:
   devpi-password: abcd1234
@@ -27,7 +26,33 @@ env:
     PYTEST_THEME_MODE
 
 jobs:
+  fail-fast:
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    timeout-minutes: 2
+
+    steps:
+    - name: Check out the action locally
+      uses: actions/checkout@v4
+      with:
+        path: test
+    - name: Fail-fast in unsupported environments
+      continue-on-error: true
+      id: fail-fast
+      uses: ./test
+    - name: Error if action did not fail-fast in unsupported environments
+      if: steps.fail-fast.outcome == 'success'
+      run: |
+        >&2 echo This action should fail-fast in unsupported environments.
+        exit 1
+
   smoke-test:
+
     runs-on: ubuntu-latest
 
     services:
