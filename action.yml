@@ -130,10 +130,26 @@ runs:
       PR_REF: ${{ github.event.pull_request.head.ref }}
       PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       PR_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
+  - name: Discover pre-installed Python
+    id: pre-installed-python
+    run: |
+      # 🔎 Discover pre-installed Python
+      echo "python-path=$(command -v python3 || :)" | tee -a "${GITHUB_OUTPUT}"
+    shell: bash
+  - name: Install Python 3
+    if: steps.pre-installed-python.outputs.python-path == ''
+    id: new-python
+    uses: actions/setup-python@v5
+    with:
+      python-version: 3.x
   - name: Create Docker container action
     run: |
       # Create Docker container action
-      python ${{ github.action_path }}/create-docker-action.py
+      ${{
+        steps.pre-installed-python.outputs.python-path == ''
+        && steps.new-python.outputs.python-path
+        || steps.pre-installed-python.outputs.python-path
+      }} '${{ github.action_path }}/create-docker-action.py'
     env:
       REF: ${{ steps.set-repo-and-ref.outputs.ref }}
       REPO: ${{ steps.set-repo-and-ref.outputs.repo }}
