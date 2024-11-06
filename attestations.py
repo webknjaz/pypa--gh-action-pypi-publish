@@ -54,6 +54,7 @@ def debug(msg: str):
 def collect_dists(packages_dir: Path) -> list[Path]:
     # Collect all sdists and wheels.
     dist_paths = [sdist.resolve() for sdist in packages_dir.glob('*.tar.gz')]
+    dist_paths.extend(sdist.resolve() for sdist in packages_dir.glob('*.zip'))
     dist_paths.extend(whl.resolve() for whl in packages_dir.glob('*.whl'))
 
     # Make sure everything that looks like a dist actually is one.
