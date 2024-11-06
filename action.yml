@@ -130,24 +130,28 @@ runs:
       PR_REF: ${{ github.event.pull_request.head.ref }}
       PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       PR_REPO_ID: ${{ github.event.pull_request.base.repo.id }}
-  - name: Check out action repo
-    uses: actions/checkout@v4
-    with:
-      path: action-repo
-      ref: ${{ steps.set-repo-and-ref.outputs.ref }}
-      repository: ${{ steps.set-repo-and-ref.outputs.repo }}
   - name: Create Docker container action
     run: |
       # Create Docker container action
-      python create-docker-action.py
+      python ${{ github.action_path }}/create-docker-action.py
     env:
       REF: ${{ steps.set-repo-and-ref.outputs.ref }}
       REPO: ${{ steps.set-repo-and-ref.outputs.repo }}
       REPO_ID: ${{ steps.set-repo-and-ref.outputs.repo-id }}
     shell: bash
-    working-directory: action-repo
   - name: Run Docker container
-    uses: ./action-repo/.github/actions/run-docker-container
+    # The generated trampoline action must exist in the allowlisted
+    # runner-defined working directory so it can be referenced by the
+    # relative path starting with `./`.
+    #
+    # This mutates the end-user's workspace slightly but uses a path
+    # that is unlikely to clash with somebody else's use.
+    #
+    # We cannot use randomized paths because the composite action
+    # syntax does not allow accessing variables in `uses:`. This
+    # means that we end up having to hardcode this path both here and
+    # in `create-docker-action.py`.
+    uses: ./.github/.tmp/.generated-actions/run-pypi-publish-in-docker-container
     with:
       user: ${{ inputs.user }}
       password: ${{ inputs.password }}
