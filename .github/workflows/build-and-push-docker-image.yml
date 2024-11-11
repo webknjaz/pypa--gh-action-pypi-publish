@@ -32,15 +32,18 @@ jobs:
         IMAGE="ghcr.io/$GITHUB_REPOSITORY:${DOCKER_TAG}"
         IMAGE_MAJOR="ghcr.io/$GITHUB_REPOSITORY:${DOCKER_TAG_MAJOR}"
         IMAGE_MAJOR_MINOR="ghcr.io/$GITHUB_REPOSITORY:${DOCKER_TAG_MAJOR_MINOR}"
+        IMAGE_SHA="ghcr.io/$GITHUB_REPOSITORY:${GITHUB_SHA}"
         echo "IMAGE=$IMAGE" >>"$GITHUB_ENV"
         echo "IMAGE_MAJOR=$IMAGE_MAJOR" >>"$GITHUB_ENV"
         echo "IMAGE_MAJOR_MINOR=$IMAGE_MAJOR_MINOR" >>"$GITHUB_ENV"
+        echo "IMAGE_SHA=$IMAGE_SHA" >>"$GITHUB_ENV"
         docker build . \
           --build-arg BUILDKIT_INLINE_CACHE=1 \
           --cache-from $IMAGE \
           --tag $IMAGE
         docker tag $IMAGE $IMAGE_MAJOR
         docker tag $IMAGE $IMAGE_MAJOR_MINOR
+        docker tag $IMAGE $IMAGE_SHA
       env:
         DOCKER_TAG: ${{ inputs.tag || github.ref_name }}
     - name: Log in to GHCR
@@ -52,3 +55,4 @@ jobs:
         docker push $IMAGE
         docker push $IMAGE_MAJOR
         docker push $IMAGE_MAJOR_MINOR
+        docker push $IMAGE_SHA
