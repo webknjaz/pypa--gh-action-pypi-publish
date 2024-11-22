@@ -83,6 +83,7 @@ If a claim is not present in the claim set, then it is rendered as `MISSING`.
 * `repository`: `{repository}`
 * `repository_owner`: `{repository_owner}`
 * `repository_owner_id`: `{repository_owner_id}`
+* `workflow_ref`: `{workflow_ref}`
 * `job_workflow_ref`: `{job_workflow_ref}`
 * `ref`: `{ref}`
 
@@ -175,6 +176,7 @@ def render_claims(token: str) -> str:
         repository=_get('repository'),
         repository_owner=_get('repository_owner'),
         repository_owner_id=_get('repository_owner_id'),
+        workflow_ref=_get('workflow_ref'),
         job_workflow_ref=_get('job_workflow_ref'),
         ref=_get('ref'),
     )
