@@ -41,8 +41,6 @@ idna==3.7
     # via
     #   email-validator
     #   requests
-importlib-metadata==7.1.0
-    # via twine
 jaraco-classes==3.4.0
     # via keyring
 jaraco-context==5.3.0
@@ -67,6 +65,7 @@ packaging==24.1
     # via
     #   -r runtime.in
     #   pypi-attestations
+    #   twine
 pkginfo==1.10.0
     # via twine
 platformdirs==4.2.2
@@ -133,7 +132,7 @@ six==1.16.0
     # via python-dateutil
 tuf==5.0.0
     # via sigstore
-twine==5.1.1
+twine==6.0.1
     # via -r runtime.in
 typing-extensions==4.11.0
     # via
@@ -143,5 +142,3 @@ urllib3==2.2.1
     # via
     #   requests
     #   twine
-zipp==3.18.2
-    # via importlib-metadata

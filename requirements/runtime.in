@@ -1,4 +1,4 @@
-twine
+twine ~= 6.0
 
 # NOTE: Used to detect an ambient OIDC credential for OIDC publishing,
 # NOTE: as well as PEP 740 attestations.
