@@ -115,7 +115,12 @@ jobs:
       run: python3 -m build -o ../dist/
       working-directory: rust-example
     - name: Register the stub package in devpi
-      run: twine register dist/*.tar.gz
+      run: |
+        for dist in dist/*.tar.gz
+        do
+          echo "Registering ${dist}..."
+          twine register "${dist}"
+        done
       env:
         TWINE_USERNAME: ${{ env.devpi-username }}
         TWINE_PASSWORD: ${{ env.devpi-password }}
