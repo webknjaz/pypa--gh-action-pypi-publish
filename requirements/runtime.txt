@@ -66,8 +66,10 @@ packaging==24.1
     #   -r runtime.in
     #   pypi-attestations
     #   twine
-pkginfo==1.10.0
-    # via twine
+pkginfo==1.12.0
+    # via
+    #   -r runtime.in
+    #   twine
 platformdirs==4.2.2
     # via sigstore
 pyasn1==0.6.0
