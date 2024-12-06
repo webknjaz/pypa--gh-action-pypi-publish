@@ -101,9 +101,18 @@ jobs:
     - name: Initialize a Rust project
       run: cargo init
       working-directory: rust-example
-    - name: Build a Rust project
-      run: pipx run maturin build --release --out ../dist/
+    - name: Populate the Rust package `pyproject.toml`
+      run: echo "$CONTENTS" > pyproject.toml
+      env:
+        CONTENTS: |
+          [build-system]
+          requires = [
+            "maturin ~=1.0",
+          ]
+          build-backend = "maturin"
       working-directory: rust-example
+    - name: Build the stub package sdist and wheel distributions
+      run: python3 -m build rust-example/
     - name: Register the stub package in devpi
       run: twine register dist/*.tar.gz
       env:
