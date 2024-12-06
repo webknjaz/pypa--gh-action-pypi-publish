@@ -97,7 +97,12 @@ jobs:
     - name: Build the stub package sdist and wheel distributions
       run: python3 -m build
     - name: Register the stub package in devpi
-      run: twine register dist/*.tar.gz
+      run: |
+        for dist in dist/*.tar.gz
+        do
+          echo "Registering ${dist}..."
+          twine register "${dist}"
+        done
       env:
         TWINE_USERNAME: ${{ env.devpi-username }}
         TWINE_PASSWORD: ${{ env.devpi-password }}
