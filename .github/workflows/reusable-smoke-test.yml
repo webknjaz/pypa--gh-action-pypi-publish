@@ -112,7 +112,8 @@ jobs:
           build-backend = "maturin"
       working-directory: rust-example
     - name: Build the stub package sdist and wheel distributions
-      run: python3 -m build rust-example/
+      run: python3 -m build -o ../dist/
+      working-directory: rust-example
     - name: Register the stub package in devpi
       run: twine register dist/*.tar.gz
       env:
