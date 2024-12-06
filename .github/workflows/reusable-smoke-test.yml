@@ -96,6 +96,24 @@ jobs:
           readme = "README.md"
     - name: Build the stub package sdist and wheel distributions
       run: python3 -m build
+    - name: Create the Rust package directory
+      run: mkdir -pv rust-example
+    - name: Initialize a Rust project
+      run: cargo init
+      working-directory: rust-example
+    - name: Populate the Rust package `pyproject.toml`
+      run: echo "$CONTENTS" > pyproject.toml
+      env:
+        CONTENTS: |
+          [build-system]
+          requires = [
+            "maturin ~=1.0",
+          ]
+          build-backend = "maturin"
+      working-directory: rust-example
+    - name: Build the stub package sdist and wheel distributions
+      run: python3 -m build -o ../dist/
+      working-directory: rust-example
     - name: Register the stub package in devpi
       run: |
         for dist in dist/*.tar.gz
