@@ -1,9 +1,6 @@
-twine ~= 6.0
+-c runtime-constraints.in  # limits known broken versions
 
-# NOTE: 1.12.0 and later enable support for metadata 2.4
-# NOTE: This can be dropped once twine stops using pkginfo
-# Ref: https://github.com/pypa/twine/pull/1180
-pkginfo ~= 1.12.0
+twine ~= 6.0
 
 # NOTE: Used to detect an ambient OIDC credential for OIDC publishing,
 # NOTE: as well as PEP 740 attestations.
