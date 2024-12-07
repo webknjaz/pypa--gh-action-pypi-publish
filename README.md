@@ -13,6 +13,10 @@ walkthrough check out the [PyPA guide].
 If you have any feedback regarding specific action versions, please leave
 comments in the corresponding [per-release announcement discussions].
 
+> [!TIP]
+> A limited number of usage scenarios is supported, including the
+> [PyPA guide] example. See the [non-goals] for more detail.
+
 
 ## 🌇 `master` branch sunset ❗
 
@@ -131,6 +135,9 @@ same identity.
 This GitHub Action [has nothing to do with _building package
 distributions_]. Users are responsible for preparing dists for upload
 by putting them into the `dist/` folder prior to running this Action.
+They are typically expected to do this in a _separate GitHub Actions
+CI/CD job_ running before the one where they call this action and having
+restricted privileges.
 
 > [!IMPORTANT]
 > Since this GitHub Action is docker-based, it can only
@@ -154,6 +161,72 @@ by putting them into the `dist/` folder prior to running this Action.
 > `actions/upload-artifact` and `actions/download-artifact` actions for
 > sharing the built dists across stages and jobs. Then, use the `needs`
 > setting to order the build, test and publish stages.
+
+The expected environment for running `pypi-publish` is the
+GitHub-provided Ubuntu VM. We are running a smoke-test against
+`ubuntu-latest` in CI but any currently available numbered versions
+should do. We'll consider them supported for as long as GitHub itself
+supports them.
+
+Running the action in a job that has a `container:` set is not
+supported. It might work for you but you're on your own when it breaks.
+If you feel the need to use it, it's likely that you're not following
+the recommendation of invoking the build automation in a separate job,
+which is considered a security issue (especially, when using [Trusted
+Publishing][trusted publisher] that may cause privilege escalation and
+would enable the attackers to impersonate the GitHub-backed identity of
+the repository through transitive build dependency poisoning). The
+solution is to have one job (or multiple, in case of projects with
+C-extensions) for building the distribution packages, followed by
+another that publishes them.
+
+Self-hosted runners are best effort, provided no other unsupported
+things influence them. We are unable to test this in CI and they may
+break. This is often the case when using custom runtimes and not the
+official GitHub-provided VMs. In general, if you follow the
+recommendation of building in a separate job, you shouldn't need to run
+this action within a self-hosted runner — it should be possible to
+build your dists in a self-hosted runner, save them as a GitHub Actions
+artifact in that job, and then invoke the publishing job that would run
+within GitHub-provided runners, downloading the artifact with the dists
+and publishing them. Such separation is the _recommended_/**supported**
+way of handling this scenario.
+Our understandng is that Trusted publishing is expected to work on
+self-hosted runners. It is backed by OIDC. If it doesn't work, you
+should probably ask GitHub if you missed something. We wouldn't be able
+to assist here.
+
+Trusted Publishing cannot be tested in CI at the moment, sadly. It is
+supported and bugs should be reported but it may take time to sort out
+as it often requires cross-project collaboration to debug (sometimes,
+problems occur due to changes in PyPI and not in the action).
+
+The only case that is explicitly unsupported at the moment is [Trusted
+Publishing][trusted publisher] in reusable workflows. This requires
+support on the PyPI side and is being worked on. Please, do not report
+bugs related to this case. The current recommendation is to put
+everything else you want into a reusable workflow but keep the job
+calling `pypi-publish` in a top-level one.
+
+Invoking `pypi-publish` from composite actions is unsupported. It is not
+tested. GitHub Runners have limitations and bugs in this case. But more
+importantly, this is usually an indication of using it insecurely. When
+using [Trusted Publishing][trusted publisher], it is imperative to keep
+build machinery invocation in a separate job with restrictive priviliges
+as [Trusted Publishing][trusted publisher] itself requires elevated
+permissions to make use of OIDC. Our observation is that the users
+sometimes create in-project composite actions that invoke building and
+publishing in the same job. As such, we don't seek to support such a
+dangerous configuration in the first place. The solution is pretty much
+the same as with the previous problem — use a separate job with
+dedicated and scoped privileges just for publishing; and invoke that
+in-project composite action from a different job.
+
+And finally, invoking `pypi-publish` more than once in the same job is
+not considered supported. It may work in a limited number of scenarios
+but please, don't do this. If you want to publish to several indexes,
+build the dists in one job and add several publishing jobs, one per
+upload.
 
 
 ## Advanced release management
@@ -293,6 +366,8 @@ https://julienrenaux.fr/2019/12/20/github-actions-security-risk/
 
 [per-release announcement discussions]:
 https://github.com/pypa/gh-action-pypi-publish/discussions/categories/announcements
+
+[non-goals]: #Non-goals
 
 [Creating & using secrets]:
 https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets
