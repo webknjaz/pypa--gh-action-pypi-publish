@@ -212,7 +212,7 @@ Invoking `pypi-publish` from composite actions is unsupported. It is not
 tested. GitHub Runners have limitations and bugs in this case. But more
 importantly, this is usually an indication of using it insecurely. When
 using [Trusted Publishing][trusted publisher], it is imperative to keep
-build machinery invocation in a separate job with restrictive priviliges
+build machinery invocation in a separate job with restrictive privileges
 as [Trusted Publishing][trusted publisher] itself requires elevated
 permissions to make use of OIDC. Our observation is that the users
 sometimes create in-project composite actions that invoke building and
