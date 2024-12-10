@@ -47,7 +47,7 @@ def die(msg: str) -> NoReturn:
     sys.exit(1)
 
 
-def debug(msg: str):
+def debug(msg: str) -> None:
     print(f'::debug::{msg}', file=sys.stderr)
 
 
