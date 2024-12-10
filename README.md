@@ -2,6 +2,7 @@
 
 [![🧪 GitHub Actions CI/CD workflow tests badge]][GHA workflow runs list]
 [![pre-commit.ci status badge]][pre-commit.ci results page]
+[![docs badge]][PyPUG guide]
 
 # PyPI publish GitHub Action
 
@@ -360,6 +361,11 @@ https://github.com/pypa/gh-action-pypi-publish/actions/workflows/self-smoke-test
 https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/unstable/v1
 [pre-commit.ci status badge]:
 https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/v1.svg
+
+[docs badge]:
+https://img.shields.io/badge/guide-gray?logo=readthedocs&label=PyPA&color=white
+[PyPUG guide]:
+https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
 [use a full Git commit SHA]:
 https://julienrenaux.fr/2019/12/20/github-actions-security-risk/
