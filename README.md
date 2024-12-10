@@ -363,7 +363,7 @@ https://results.pre-commit.ci/latest/github/pypa/gh-action-pypi-publish/unstable
 https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/v1.svg
 
 [docs badge]:
-https://img.shields.io/badge/guide-gray?logo=readthedocs&label=PyPA&color=white
+https://img.shields.io/badge/guide-gray?logo=readthedocs&label=PyPUG&color=white
 [PyPUG guide]:
 https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
