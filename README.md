@@ -1,5 +1,6 @@
 [![SWUbanner]][SWUdocs]
 
+![PyPA badge]
 [![🧪 GitHub Actions CI/CD workflow tests badge]][GHA workflow runs list]
 [![pre-commit.ci status badge]][pre-commit.ci results page]
 [![docs badge]][PyPUG guide]
@@ -351,6 +352,8 @@ on supported platforms (like GitHub).
 The Dockerfile and associated scripts and documentation in this project
 are released under the [BSD 3-clause license](LICENSE.md).
 
+[PyPA badge]:
+https://img.shields.io/badge/project-yellow?label=PyPA&labelColor=ffd242&color=3775a9
 
 [🧪 GitHub Actions CI/CD workflow tests badge]:
 https://github.com/pypa/gh-action-pypi-publish/actions/workflows/build-and-push-docker-image.yml/badge.svg?branch=unstable%2Fv1&event=push
