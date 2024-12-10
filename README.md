@@ -3,7 +3,7 @@
 ![PyPA badge]
 [![🧪 GitHub Actions CI/CD workflow tests badge]][GHA workflow runs list]
 [![pre-commit.ci status badge]][pre-commit.ci results page]
-[![docs badge]][PyPUG guide]
+[![GH Sponsors badge]][GH Sponsors URL]
 
 # PyPI publish GitHub Action
 
@@ -369,6 +369,11 @@ https://results.pre-commit.ci/badge/github/pypa/gh-action-pypi-publish/unstable/
 https://img.shields.io/badge/guide-gray?logo=readthedocs&label=PyPUG&color=white
 [PyPUG guide]:
 https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
+
+[GH Sponsors badge]:
+https://img.shields.io/badge/%40webknjaz-transparent?logo=githubsponsors&logoColor=%23EA4AAA&label=Sponsor&color=2a313c
+[GH Sponsors URL]:
+https://github.com/sponsors/webknjaz
 
 [use a full Git commit SHA]:
 https://julienrenaux.fr/2019/12/20/github-actions-security-risk/
