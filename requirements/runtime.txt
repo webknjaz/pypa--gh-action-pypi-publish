@@ -67,8 +67,9 @@ multidict==6.0.5
     # via grpclib
 nh3==0.2.17
     # via readme-renderer
-packaging==24.1
+packaging==24.2
     # via
+    #   -c runtime-constraints.in
     #   -r runtime.in
     #   pypi-attestations
     #   twine

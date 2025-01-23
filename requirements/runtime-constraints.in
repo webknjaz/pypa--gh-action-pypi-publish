@@ -13,3 +13,7 @@
 #      remain in Git.                                                         #
 #                                                                             #
 ###############################################################################
+
+# NOTE: Twine 6.1 needs packaging 24.2 to support metadata 2.4
+# Ref: https://github.com/pypa/twine/pull/1180
+packaging >= 24.2
