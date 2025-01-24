@@ -38,6 +38,7 @@ id==1.4.0
     # via
     #   -r runtime.in
     #   sigstore
+    #   twine
 idna==3.7
     # via
     #   email-validator
@@ -66,14 +67,11 @@ multidict==6.0.5
     # via grpclib
 nh3==0.2.17
     # via readme-renderer
-packaging==24.1
-    # via
-    #   -r runtime.in
-    #   pypi-attestations
-    #   twine
-pkginfo==1.12.0
+packaging==24.2
     # via
     #   -c runtime-constraints.in
+    #   -r runtime.in
+    #   pypi-attestations
     #   twine
 platformdirs==4.2.2
     # via sigstore
@@ -141,7 +139,7 @@ six==1.16.0
     # via python-dateutil
 tuf==5.0.0
     # via sigstore
-twine==6.0.1
+twine==6.1.0
     # via -r runtime.in
 typing-extensions==4.11.0
     # via

@@ -14,7 +14,6 @@
 #                                                                             #
 ###############################################################################
 
-# NOTE: 1.12.0 and later enable support for metadata 2.4
-# NOTE: This can be dropped once twine stops using pkginfo
+# NOTE: Twine 6.1 needs packaging 24.2 to support metadata 2.4
 # Ref: https://github.com/pypa/twine/pull/1180
-pkginfo >= 1.12.0
+packaging >= 24.2
